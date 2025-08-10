@@ -151,11 +151,32 @@ class FractalViewer:
         self.iter_slider.set(self.iterations)
         self.iter_slider.grid(row=1, column=1, pady=5)
 
+        # Botón Guardar Imagen
         save_btn = tk.Button(
             control_frame, text="Guardar Imagen", command=self.save_image,
             font=label_font, bg="#00e0ff", fg="#181828", activebackground="#00bfff", activeforeground="#181828"
         )
-        save_btn.grid(row=2, column=0, columnspan=2, pady=10)
+        save_btn.grid(row=2, column=0, pady=10, sticky="ew")
+
+        # Botón Vista 3D al lado del de guardar
+        self.btn_3d = tk.Button(
+            control_frame,
+            text="🌐 Vista 3D",
+            command=self.show_mandelbrot_3d,
+            font=("Segoe UI", 13, "bold"),
+            bg="#00e0ff",
+            fg="#181828",
+            activebackground="#00bfff",
+            activeforeground="#181828",
+            relief="raised",
+            bd=3,
+            cursor="hand2"
+        )
+        self.btn_3d.grid(row=2, column=1, pady=10, sticky="ew")
+
+        # Estado inicial del botón
+        if self.fractal_type not in ["Mandelbrot", "Julia"]:
+            self.btn_3d.config(state="disabled")
 
         # Botones de traslación
         move_frame = tk.LabelFrame(control_frame, text="Mover", font=label_font, fg="#00e0ff", bg="#222233", labelanchor="n")
@@ -224,26 +245,6 @@ class FractalViewer:
             font=entry_font, fg="#00e0ff", bg="#222233", wraplength=260
         )
         instr_label.pack(fill="both", expand=True, padx=6, pady=6)
-
-        # Botón Vista 3D (después del cuadro de instrucciones)
-        self.btn_3d = tk.Button(
-            control_frame,
-            text="🌐 Vista 3D",
-            command=self.show_mandelbrot_3d,
-            font=("Segoe UI", 13, "bold"),
-            bg="#00e0ff",
-            fg="#181828",
-            activebackground="#00bfff",
-            activeforeground="#181828",
-            relief="raised",
-            bd=3,
-            cursor="hand2"
-        )
-        self.btn_3d.grid(row=7, column=0, columnspan=2, pady=12, sticky="ew")
-
-        # Estado inicial del botón
-        if self.fractal_type not in ["Mandelbrot", "Julia"]:
-            self.btn_3d.config(state="disabled")
 
 
     def draw_fractal(self):
